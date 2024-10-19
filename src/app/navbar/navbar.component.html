@@ -1,1 +1,8 @@
-<p>navbar works!</p>
+<p-menubar [model]="items">
+    <ng-template pTemplate="start">
+        <input type="text" pInputText placeholder="Search">
+    </ng-template>
+    <ng-template pTemplate="end">
+        <img src="favicon.ico" height="22px" width="22px" class="mr-2">
+    </ng-template>
+</p-menubar>
