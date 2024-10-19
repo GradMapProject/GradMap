@@ -1,8 +1,15 @@
 <p-menubar [model]="items">
     <ng-template pTemplate="start">
-        <input type="text" pInputText placeholder="Search">
+        <img src="favicon.ico" height="26px" width="26px" class="mx-3">
+    </ng-template>
+    <ng-template pTemplate="item" let-item>
+        <a pRipple class="flex align-items-center p-menuitem-link">
+            <span [class]="item.icon"></span>
+            <span class="ml-2">{{ item.label }}</span>
+            <p-badge *ngIf="item.badge" class="ml-auto" [value]="item.badge" />
+        </a>
     </ng-template>
     <ng-template pTemplate="end">
-        <img src="favicon.ico" height="22px" width="22px" class="mr-2">
+        <input type="text" pInputText placeholder="Search">
     </ng-template>
 </p-menubar>
