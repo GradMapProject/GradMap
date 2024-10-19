@@ -17,7 +17,8 @@ export class NavbarComponent {
   items: MenuItem[] = [
           {
               label:'My Plans',
-              icon:'pi pi-fw pi-file'
+              icon:'pi pi-fw pi-file',
+              link:'/plans'
           },
           {
               label:'Profile',
