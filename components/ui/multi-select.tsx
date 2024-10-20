@@ -160,7 +160,7 @@ export const MultiSelect = React.forwardRef<
       if (selectedValues.includes(option)) {
         const element = document.querySelector(`#badge-for-${option}`);
         if (element) {
-          element.classList.add("fly-out-top");
+          element.classList.add("fly-out-middle");
         }
         setRemovingValues((prev) => [...prev, option]);
         setTimeout(() => {
@@ -177,8 +177,23 @@ export const MultiSelect = React.forwardRef<
     };
 
     const handleClear = () => {
-      setSelectedValues([]);
-      onValueChange([]);
+      // iterate through selected values to animate badge leave
+      for (let i = 0; i < selectedValues.length; i++) {
+        const element = document.querySelector(`#badge-for-${selectedValues[i]}`);
+        if (element) {
+          element.classList.add("fly-out-middle");
+        }
+      }
+
+      // set all removing values
+      setRemovingValues(selectedValues);
+
+      // clear selected values after animation
+      setTimeout(() => {
+        setSelectedValues([]);
+        onValueChange([]);
+        setRemovingValues([]);
+      }, 300); // 300ms for the animation duration
     };
 
     const handleTogglePopover = () => {
@@ -222,7 +237,7 @@ export const MultiSelect = React.forwardRef<
                         key={value}
                         id={`badge-for-${value}`}
                         className={cn(
-                          "fly-in-top",
+                          "fly-in-middle",
                           multiSelectVariants({ variant })
                         )}
                       >

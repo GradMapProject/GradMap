@@ -8,7 +8,7 @@ const OnboardingLayout = ({
     return ( 
         <div className="h-full">
             <Navbar />
-            <main className="h-full">
+            <main className="">
                 {children}
             </main>
         </div>
