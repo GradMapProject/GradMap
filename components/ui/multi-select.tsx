@@ -76,6 +76,8 @@ interface MultiSelectProps
    */
   onValueChange: (value: string[]) => void;
 
+  doSelectAll?: boolean;
+
   /** The default selected values when the component mounts. */
   defaultValue?: string[];
 
@@ -132,6 +134,7 @@ export const MultiSelect = React.forwardRef<
       maxCount = 3,
       modalPopover = false,
       asChild = false,
+      doSelectAll = true,
       className,
       ...props
     },
@@ -301,6 +304,7 @@ export const MultiSelect = React.forwardRef<
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
+                {doSelectAll && (
                 <CommandItem
                   key="all"
                   onSelect={toggleAll}
@@ -318,6 +322,7 @@ export const MultiSelect = React.forwardRef<
                   </div>
                   <span>(Select All)</span>
                 </CommandItem>
+                )}
                 {options.map((option) => {
                   const isSelected = selectedValues.includes(option.value);
                   return (
