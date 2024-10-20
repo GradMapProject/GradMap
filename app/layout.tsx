@@ -17,7 +17,7 @@ export default function RootLayout({
     <ClerkProvider >
         <html lang="en">
           <body
-            className={`inter-font-200 antialiased`}
+            className={`inter-font-200 antialiased fade-in`}
           >
           <ThemeProvider
             attribute="class"

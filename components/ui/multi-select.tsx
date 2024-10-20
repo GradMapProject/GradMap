@@ -4,10 +4,8 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
   CheckIcon,
-  XCircle,
   ChevronDown,
   XIcon,
-  WandSparkles,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -143,6 +141,7 @@ export const MultiSelect = React.forwardRef<
       React.useState<string[]>(defaultValue);
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
+    const [removingValues, setRemovingValues] = React.useState<string[]>([]);
 
     const handleInputKeyDown = (
       event: React.KeyboardEvent<HTMLInputElement>
@@ -158,11 +157,23 @@ export const MultiSelect = React.forwardRef<
     };
 
     const toggleOption = (option: string) => {
-      const newSelectedValues = selectedValues.includes(option)
-        ? selectedValues.filter((value) => value !== option)
-        : [...selectedValues, option];
-      setSelectedValues(newSelectedValues);
-      onValueChange(newSelectedValues);
+      if (selectedValues.includes(option)) {
+        const element = document.querySelector(`#badge-for-${option}`);
+        if (element) {
+          element.classList.add("fly-out-top");
+        }
+        setRemovingValues((prev) => [...prev, option]);
+        setTimeout(() => {
+          const newSelectedValues = selectedValues.filter((value) => value !== option);
+          setSelectedValues(newSelectedValues);
+          onValueChange(newSelectedValues);
+          setRemovingValues((prev) => prev.filter((value) => value !== option));
+        }, 300); // 300ms for the animation duration
+      } else {
+        const newSelectedValues = [...selectedValues, option];
+        setSelectedValues(newSelectedValues);
+        onValueChange(newSelectedValues);
+      }
     };
 
     const handleClear = () => {
@@ -172,12 +183,6 @@ export const MultiSelect = React.forwardRef<
 
     const handleTogglePopover = () => {
       setIsPopoverOpen((prev) => !prev);
-    };
-
-    const clearExtraOptions = () => {
-      const newSelectedValues = selectedValues.slice(0, maxCount);
-      setSelectedValues(newSelectedValues);
-      onValueChange(newSelectedValues);
     };
 
     const toggleAll = () => {
@@ -215,11 +220,11 @@ export const MultiSelect = React.forwardRef<
                     return (
                       <Badge
                         key={value}
+                        id={`badge-for-${value}`}
                         className={cn(
-                          isAnimating ? "animate-bounce" : "",
+                          "fly-in-top",
                           multiSelectVariants({ variant })
                         )}
-                        style={{ animationDuration: `${animation}s` }}
                       >
                         {IconComponent && (
                           <IconComponent className="h-4 w-4 mr-2" />
@@ -260,7 +265,7 @@ export const MultiSelect = React.forwardRef<
               </div>
             ) : (
               <div className="flex items-center justify-between w-full mx-auto">
-                <span className="text-sm text-muted-foreground mx-3">
+                <span className="text-sm text-muted-foreground mx-3 fade-in">
                   {placeholder}
                 </span>
                 <ChevronDown className="h-4 cursor-pointer text-muted-foreground mx-2" />
