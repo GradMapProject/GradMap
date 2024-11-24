@@ -22,7 +22,7 @@ const OnboardingPage = () => {
 
     return ( 
     <>
-        <div className="flex flex-col h-full items-center w-full pt-24">
+        <div className="flex flex-col h-full items-center w-full pt-24 px-8">
             <h1 className="text-2xl py-4">welcome to</h1>
             <Image className="block dark:hidden" alt="Chapman University Logo" src="/chapman_light.svg" width={400} height={150} />
             <Image className="hidden dark:block" alt="Chapman University Logo" src="/chapman_dark.svg" width={400} height={150} />
